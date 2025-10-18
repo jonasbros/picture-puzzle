@@ -3,6 +3,14 @@
         <div v-if="!startPuzzle" id="image-upload__container">
             <p>Upload an image to start</p>
             <input type="file" accept="image/*" @change="handleUpload"/>
+            
+            <small
+                v-for="error in errors"
+                :key="error"
+                style="color: red;"
+            >
+                {{ error }}
+            </small>
         </div>
 
         <puzzle-area v-else :image-src="previewSrc"/>
@@ -20,11 +28,17 @@ export default {
     data: () => ({
         previewSrc: null,
         startPuzzle: false,
+        errors: []
     }),
 
     methods: {
         handleUpload($event) {
-            const image = $event.target.files[0];
+            const file = $event.target.files[0];
+            if(!file.type.startsWith('image/')) {
+                this.errors.push('Please upload a valid image file.');
+                return;
+            }
+
             const reader = new FileReader();
 
             reader.addEventListener("load", () => {
@@ -33,8 +47,8 @@ export default {
                 this.startPuzzle = true;
             });
 
-            if (image) {
-                reader.readAsDataURL(image);
+            if (file) {
+                reader.readAsDataURL(file);
             }
         },
     }
