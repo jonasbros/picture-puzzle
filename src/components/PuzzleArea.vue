@@ -1,6 +1,6 @@
 <template>
   <div id="puzzle-area">
-    <h1>PUZZLE</h1>
+    <h2>PUZZLE</h2>
 
     <div id="puzzle-area__container">
       <div id="puzzle-area__board">
@@ -34,9 +34,8 @@ export default {
 
   data: () => ({
     puzzlePieces: [],
-    positions: [],
-    solutionArray: [],
     solution: '',
+    isSolved: false,
   }),
 
   mounted() {
@@ -51,21 +50,14 @@ export default {
 
     createPuzzleItems() {
       for(let i = 1; i <= 9; i++) {
-        const pieceData = {
+        this.puzzlePieces.push({
           id: i,
-          position: null,
-          correctPosition: i,
-        };
-
-        this.solutionArray.push({
-          ...pieceData,
           position: i,
+          correctPosition: i,
         });
-
-        this.puzzlePieces.push(pieceData);
       }
 
-      this.solution = JSON.stringify(this.solutionArray);
+      this.solution = JSON.stringify(this.puzzlePieces);
     },
 
     shufflePuzzle() {
@@ -83,14 +75,12 @@ export default {
         ...item,
         position: positions[index],
       }));
-
-      this.positions = positions;
     },
 
-    startDrag(event, puzzlePiece) {
+    startDrag(event, draggedPiece) {
       event.dataTransfer.dropEffect = 'move';
       event.dataTransfer.effectAllowed = 'move';
-      event.dataTransfer.setData('draggedPiece', JSON.stringify(puzzlePiece));
+      event.dataTransfer.setData('draggedPiece', JSON.stringify(draggedPiece));
     },
 
     onDrop(event, targetPiece) {
@@ -113,7 +103,8 @@ export default {
     
     checkWinCondition() {
       const currentState = JSON.stringify(this.puzzlePieces);
-      if (currentState === this.solution) {
+      this.isSolved = currentState === this.solution;
+      if (this.isSolved) {
         setTimeout(() => {
           this.$router.push('congrats');
         }, 500);

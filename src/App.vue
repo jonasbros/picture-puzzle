@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <h2>IMAGE PUZZLE</h2>
+    <h1>IMAGE PUZZLE</h1>
     <router-view/>
   </div>
 </template>
