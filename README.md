@@ -1,5 +1,7 @@
 # picture-puzzle
 
+## [Check it out live here!](https://jonasbros.github.io/picture-puzzle)
+
 ## Project setup
 ```
 npm install
