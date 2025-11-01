@@ -1,6 +1,6 @@
 # picture-puzzle
 
-## [Check it out live here!](https://jonasbros.github.io/picture-puzzle){:target="_blank"}
+## [Check it out live here!](https://jonasbros.github.io/picture-puzzle)
 
 ## Project setup
 ```
